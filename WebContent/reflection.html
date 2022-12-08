@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reflection</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">HOME</a>
+    </nav>
+    <div class="contenedor">
+      <form class="formulario" id="form" method="post">
+        <div class="input-contenedor">
+          <input
+            type="text"
+            placeholder="Nombre del metodo a ejecutar"
+            name="methodName"
+          />
+        </div>
+        <button class="button" type="submit">Enviar</button>
+      </form>
+      <h1 id="result"></h1>
+    </div>
+    <script>
+      const form = document.querySelector("#form");
+      const resultDiv = document.querySelector("#result");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const methodName = e.target.elements.methodName.value;
+        resultDiv.textContent = "";
+        const methodResult = await fetchReflection(methodName);
+        resultDiv.textContent = methodResult;
+      });
+      const fetchReflection = (methodName) =>
+        fetch("/ProyectoWeb/Reflection", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            method: methodName,
+          }),
+        }).then((res) => res.text());
+    </script>
+  </body>
+</html>

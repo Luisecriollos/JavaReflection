@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <form class="formulario" id="form">
+      <h1>Registrate</h1>
+      <div class="contenedor">
+        <div class="input-contenedor">
+          <i class="fas fa-user icon"></i>
+          <input type="text" placeholder="Nombre de usuario" name="username" />
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-envelope icon"></i>
+          <input type="text" placeholder="Correo Electronico" name="email" />
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-key icon"></i>
+          <input type="password" placeholder="Contraseña" name="password" />
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-address-card icon"></i>
+          <input type="text" placeholder="¿Que edad tienes?" name="age" />
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-globe-americas icon"></i>
+          <input type="text" placeholder="Nacionalidad" name="country" />
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-venus-mars icon"></i>
+          <input type="text" placeholder="¿Cual es tu genero?" name="gender" />
+        </div>
+        <input type="submit" value="Registrate" class="button" />
+        <p>
+          Al registrarte, aceptas nuestras Condiciones de uso y Política de
+          privacidad.
+        </p>
+        <p>
+          ¿Ya tienes una cuenta?<a class="link" href="index.html"
+            >Iniciar Sesion</a
+          >
+        </p>
+      </div>
+    </form>
+    <script>
+      const form = document.querySelector("#form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const json = {};
+        for (const pair of new FormData(e.target)) {
+          json[pair[0]] = pair[1];
+        }
+        try {
+          await register(json);
+          location.href = "/ProyectoWeb/reflection.html";
+        } catch (error) {
+          console.log(error);
+        }
+      });
+
+      const register = (data) =>
+        fetch("/ProyectoWeb/Register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.text())
+          .then((text) => alert(text))
+          .catch((e) => alert(e));
+    </script>
+  </body>
+</html>

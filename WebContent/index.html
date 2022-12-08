@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=3.0, minimum-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+    />
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <form class="formulario" id="form">
+      <h1>Login</h1>
+      <div class="contenedor">
+        <div class="input-contenedor">
+          <i class="fas fa-user icon"></i>
+          <input type="text" placeholder="Nombre de Usuario" name="username" />>
+        </div>
+
+        <div class="input-contenedor">
+          <i class="fas fa-key icon"></i>
+          <input type="password" placeholder="Contraseña" name="password" />
+        </div>
+        <input type="submit" value="Login" class="button" />
+        <p>
+          Inicia tu sesion y empieza a disfrutar de la Experiencia Whatching.
+        </p>
+        <p>
+          ¿No tienes una cuenta?
+          <a class="link" href="registrar.html">Registrate </a>
+        </p>
+        <script>
+          const form = document.querySelector("#form");
+
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const json = {};
+            for (const pair of new FormData(e.target)) {
+              json[pair[0]] = pair[1];
+            }
+            try {
+              await login(json);
+              location.href = "/ProyectoWeb/reflection.html";
+            } catch (error) {
+              console.log(error);
+            }
+          });
+
+          const login = (data) =>
+            fetch("/ProyectoWeb/Login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            })
+              .then((res) => res.text())
+              .then((text) => alert(text))
+              .catch((e) => alert(e));
+        </script>
+      </div>
+    </form>
+  </body>
+</html>
